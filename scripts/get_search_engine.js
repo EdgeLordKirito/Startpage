@@ -58,14 +58,14 @@ function highlightMatchingLinks() {
 }
 
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
 	if (event.key === 'Escape' && areSettingsVisible) {
 		hideSettings();
-    } else if (event.key === ' ' && event.ctrlKey) {
-        document.getElementById('search-input').focus();
+	} else if (event.key === ' ' && event.ctrlKey) {
+		document.getElementById('search-input').focus();
 	} else if (event.key === 'Escape') {
-        document.getElementById('search-input').blur();
-	}else if (event.key === 'Enter') {
+		document.getElementById('search-input').blur();
+	} else if (event.key === 'Enter') {
 		handleSearch(event);
 	} else if (event.key === 'Backspace' && event.ctrlKey || event.key === 'Delete' && event.ctrlKey) {
 		clearSearchInput();
@@ -73,7 +73,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 	function isValidURL(string) {
 		try {
 			new URL(string);
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	window.handleSearch = function(event) {
+	window.handleSearch = function (event) {
 		event.preventDefault();
 		const query = document.getElementById('search-input').value.toLowerCase();
 		const searchEngine = document.getElementById('search-engine-selector').value;
@@ -99,32 +99,40 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else if (query.startsWith('g:')) {
 			const searchQuery = query.substring(2).trim();
 			window.location.href = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-			
+
 		} else if (query.startsWith('y:')) {
 			const searchQuery = query.substring(2).trim();
 			window.location.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
-			
+
 		} else if (query.startsWith('gi:')) {
 			const searchQuery = query.substring(3).trim();
 			window.location.href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(searchQuery)}`;
-			
+
 		} else if (query.startsWith('bi:')) {
 			const searchQuery = query.substring(3).trim();
 			window.location.href = `https://search.brave.com/images?q=${encodeURIComponent(searchQuery)}`;
-			
+
 		} else if (query.startsWith('gh:')) {
 			const searchQuery = query.substring(3).trim();
 			window.location.href = `https://www.github.com/search/?q=${encodeURIComponent(searchQuery)}`;
-			
+
 		} else if (query.startsWith('wol:')) {
 			const searchQuery = query.substring(4).trim();
 			window.location.href = `https://www.wolframalpha.com/input?i=${encodeURIComponent(searchQuery)}`;
-			
+
+		} else if (query.startsWith('npkg:')) {
+			const searchQuery = query.substring(5).trim();
+			window.location.href = `https://search.nixos.org/packages?channel=unstable&query=${encodeURIComponent(searchQuery)}`;
+
+		} else if (query.startsWith('nop:')) {
+			const searchQuery = query.substring(4).trim();
+			window.location.href = `https://search.nixos.org/options?channel=unstable&query=${encodeURIComponent(searchQuery)}`;
+
 		} else if (isValidURL(query)) {
 			window.location.href = query;
 
 		} else {
-		window.location.href = `${searchEngine}?q=${encodeURIComponent(query)}`;
+			window.location.href = `${searchEngine}?q=${encodeURIComponent(query)}`;
 		}
 	};
 
